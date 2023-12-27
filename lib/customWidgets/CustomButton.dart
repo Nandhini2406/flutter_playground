@@ -23,12 +23,17 @@ class CustomButton extends StatelessWidget {
           foregroundColor: Colors.white,
           textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
         ),
-        child: Row(
-          children: [
-            Text(buttonText!),
-            const SizedBox(width: 8),
-            if (buttonIcon != null) Icon(buttonIcon),
-          ],
+        child: Center(
+          child: Row(
+            children: [
+              Text(
+                buttonText!,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(width: 8),
+              if (buttonIcon != null) Icon(buttonIcon),
+            ],
+          ),
         ));
   }
 }

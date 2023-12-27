@@ -8,7 +8,7 @@ class MainContainer extends StatelessWidget {
   @override
   Widget build(context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(50.0, 200.0, 50.0, 200.0),
+      margin: const EdgeInsets.fromLTRB(50.0, 100.0, 50.0, 100.0),
       decoration: BoxDecoration(
           // color: const Color.fromARGB(50, 0, 0, 0),
           borderRadius: BorderRadius.circular(15)),

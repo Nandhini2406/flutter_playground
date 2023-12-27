@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_playground/commonWidgets/styledText.dart';
-import 'package:flutter_playground/commonWidgets/CustomButton.dart';
+import 'package:flutter_playground/customWidgets/styledText.dart';
+import 'package:flutter_playground/customWidgets/CustomButton.dart';
+import 'package:flutter_playground/quizWidgets/quiz.dart';
 import 'package:flutter_playground/todoUI/todoUI.dart';
-import 'package:flutter_playground/quizWidgets/startQuizScreen.dart';
 
 final random = Random();
 
@@ -30,20 +30,16 @@ class _DiceRollerState extends State<DiceRoller> {
   Widget build(context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      // mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        // const SizedBox(height: 20.0),
-        const Center(
-          child:
-              StyledText('Hello Nandhini!', Color.fromARGB(255, 245, 192, 32)),
-        ),
+        const StyledText('Hello Nandhini!', Color.fromARGB(255, 245, 192, 32)),
         const SizedBox(height: 40.0),
         Image.asset(
           'assets/images/dice-$currentDice.png',
           width: 200,
           height: 200,
         ),
-        const SizedBox(height: 30.0),
+        const SizedBox(height: 20.0),
         TextButton(
           onPressed: rollDices,
           style: TextButton.styleFrom(
@@ -55,7 +51,7 @@ class _DiceRollerState extends State<DiceRoller> {
           ),
           child: const Text('Roll dice'),
         ),
-        const SizedBox(height: 40.0),
+        const SizedBox(height: 20.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -72,10 +68,8 @@ class _DiceRollerState extends State<DiceRoller> {
             CustomButton(
               bgColor: const Color.fromARGB(100, 0, 0, 0),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const StartQuizScreen()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Quiz()));
               },
               buttonText: 'Quiz',
               buttonIcon: Icons.arrow_forward,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_playground/commonWidgets/styledText.dart';
+import 'package:flutter_playground/customWidgets/styledText.dart';
 
 class TodoUI extends StatefulWidget {
   const TodoUI({super.key});
