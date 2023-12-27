@@ -17,12 +17,32 @@ class DiceRoller extends StatefulWidget {
   }
 }
 
-class _DiceRollerState extends State<DiceRoller> {
+class _DiceRollerState extends State<DiceRoller>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
   var currentDice = 1;
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(microseconds: 1),
+      vsync: this,
+    );
+
+    _animation = Tween(begin: 0.0, end: 100.0).animate(_controller)
+      ..addListener(() {
+        setState(() {});
+      });
+    // _controller.forward(); // dice spin automatically when the screen is loaded.
+  }
 
   void rollDices() {
     setState(() {
       currentDice = random.nextInt(6) + 1;
+      _controller.reset(); // Reset the animation to its initial state.
+      _controller.forward(); // Start the spinning animation.
     });
   }
 
@@ -34,10 +54,13 @@ class _DiceRollerState extends State<DiceRoller> {
       children: <Widget>[
         const StyledText('Hello Nandhini!', Color.fromARGB(255, 245, 192, 32)),
         const SizedBox(height: 40.0),
-        Image.asset(
-          'assets/images/dice-$currentDice.png',
-          width: 200,
-          height: 200,
+        RotationTransition(
+          turns: _animation,
+          child: Image.asset(
+            'assets/images/dice-$currentDice.png',
+            width: 200,
+            height: 200,
+          ),
         ),
         const SizedBox(height: 20.0),
         TextButton(
@@ -78,5 +101,11 @@ class _DiceRollerState extends State<DiceRoller> {
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

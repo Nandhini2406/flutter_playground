@@ -14,14 +14,20 @@ class QuestionsScreen extends StatefulWidget {
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
   var currentIndex = 0;
-
-  void answerQuestion() {
+  List<String> selectedAnswers = [];
+  void answerQuestion(String answers) {
     setState(() {
+      selectedAnswers.add(answers);
       currentIndex = currentIndex + 1;
     });
-    if (currentIndex == 5) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ResultScreen()));
+    print('Selcted Answer $selectedAnswers, $answers');
+    if (currentIndex == questions.length - 1) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ResultScreen(
+                    selectedAnswers: selectedAnswers,
+                  )));
     }
   }
 
@@ -46,7 +52,8 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
             ),
             const SizedBox(height: 20.0),
             ...currentQuestion.getShuffledAnswers().map((answers) {
-              return AnswerButton(answerText: answers, onTap: answerQuestion);
+              return AnswerButton(
+                  answerText: answers, onTap: () => answerQuestion(answers));
             })
           ],
         ),
