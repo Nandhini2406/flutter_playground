@@ -27,7 +27,7 @@ class _DiceRollerState extends State<DiceRoller>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(microseconds: 1),
+      duration: const Duration(seconds: 1),
       vsync: this,
     );
 

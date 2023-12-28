@@ -15,19 +15,43 @@ class QuestionsScreen extends StatefulWidget {
 class _QuestionsScreenState extends State<QuestionsScreen> {
   var currentIndex = 0;
   List<String> selectedAnswers = [];
+  bool quizCompleted = false;
+
+  // void answerQuestion(String answers) {
+  //   if (!quizCompleted && currentIndex < questions.length) {
+  //     setState(() {
+  //       currentIndex = currentIndex + 1;
+  //       selectedAnswers.add(answers);
+  //     });
+  //     print('Current isndex $currentIndex');
+  //   } else {
+  //     print('last isndex $currentIndex');
+  //     Navigator.pushReplacement(
+  //         context,
+  //         MaterialPageRoute(
+  //             builder: (context) => ResultScreen(
+  //                   selectedAnswers: selectedAnswers,
+  //                 )));
+  //   }
+  // }
+
   void answerQuestion(String answers) {
-    setState(() {
+    setState(() {}); // Call setState once at the end to trigger a rebuild.
+
+    if (!quizCompleted && currentIndex < questions.length - 1) {
       selectedAnswers.add(answers);
       currentIndex = currentIndex + 1;
-    });
-    print('Selcted Answer $selectedAnswers, $answers');
-    if (currentIndex == questions.length - 1) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ResultScreen(
-                    selectedAnswers: selectedAnswers,
-                  )));
+      print('Current index $currentIndex');
+    } else {
+      quizCompleted = true;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ResultScreen(
+            selectedAnswers: selectedAnswers,
+          ),
+        ),
+      );
     }
   }
 
@@ -53,7 +77,10 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
             const SizedBox(height: 20.0),
             ...currentQuestion.getShuffledAnswers().map((answers) {
               return AnswerButton(
-                  answerText: answers, onTap: () => answerQuestion(answers));
+                  answerText: answers,
+                  onTap: () {
+                    answerQuestion(answers);
+                  });
             })
           ],
         ),

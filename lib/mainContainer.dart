@@ -7,12 +7,16 @@ class MainContainer extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(50.0, 100.0, 50.0, 100.0),
-      decoration: BoxDecoration(
-          // color: const Color.fromARGB(50, 0, 0, 0),
-          borderRadius: BorderRadius.circular(15)),
-      child: const DiceRoller(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: Color.fromARGB(164, 12, 114, 203),
+        body: Container(
+          margin: const EdgeInsets.fromLTRB(50.0, 100.0, 50.0, 100.0),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+          child: const DiceRoller(),
+        ),
+      ),
     );
   }
 }
