@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_playground/customWidgets/iconButton.dart';
 import 'package:flutter_playground/customWidgets/styledText.dart';
 import 'package:flutter_playground/customWidgets/CustomButton.dart';
 import 'package:flutter_playground/quizWidgets/quiz.dart';
@@ -9,7 +9,7 @@ import 'package:flutter_playground/todoUI/todoUI.dart';
 final random = Random();
 
 class DiceRoller extends StatefulWidget {
-  const DiceRoller({super.key});
+  const DiceRoller({Key? key}) : super(key: key);
 
   @override
   State<DiceRoller> createState() {
@@ -35,7 +35,6 @@ class _DiceRollerState extends State<DiceRoller>
       ..addListener(() {
         setState(() {});
       });
-    // _controller.forward(); // dice spin automatically when the screen is loaded.
   }
 
   void rollDices() {
@@ -48,58 +47,93 @@ class _DiceRollerState extends State<DiceRoller>
 
   @override
   Widget build(context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        const StyledText('Hello Nandhini!', Color.fromARGB(255, 245, 192, 32)),
-        const SizedBox(height: 40.0),
-        RotationTransition(
-          turns: _animation,
-          child: Image.asset(
-            'assets/images/dice-$currentDice.png',
-            width: 200,
-            height: 200,
-          ),
-        ),
-        const SizedBox(height: 20.0),
-        TextButton(
-          onPressed: rollDices,
-          style: TextButton.styleFrom(
-            padding: const EdgeInsets.all(12.0),
-            backgroundColor: const Color.fromARGB(255, 245, 192, 32),
-            foregroundColor: Colors.black,
-            textStyle:
-                const TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-          ),
-          child: const Text('Roll dice'),
-        ),
-        const SizedBox(height: 20.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomButton(
-              bgColor: const Color.fromARGB(100, 0, 0, 0),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const TodoUI()));
-              },
-              buttonText: 'Todo',
-              buttonIcon: Icons.arrow_forward_rounded,
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(164, 12, 114, 203),
+      body: Stack(
+        children: [
+          Container(
+            margin: const EdgeInsets.fromLTRB(50.0, 100.0, 50.0, 100.0),
+            // constraints: ,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const StyledText(
+                  'Hello Nandhini!',
+                  textColor: Color.fromARGB(255, 245, 192, 32),
+                  textSize: 22,
+                  textWeight: FontWeight.bold,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 40.0),
+                RotationTransition(
+                  turns: _animation,
+                  child: Image.asset(
+                    'assets/images/dice-$currentDice.png',
+                    width: 200,
+                    height: 200,
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+                TextButton(
+                  onPressed: rollDices,
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.all(12.0),
+                    backgroundColor: const Color.fromARGB(255, 245, 192, 32),
+                    foregroundColor: Colors.black,
+                    textStyle: const TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.w500),
+                  ),
+                  child: const Text('Roll dice'),
+                ),
+                const SizedBox(height: 20.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomButton(
+                      bgColor: const Color.fromARGB(100, 0, 0, 0),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const TodoUI()));
+                      },
+                      buttonText: 'Todo',
+                      buttonIcon: Icons.arrow_forward_rounded,
+                    ),
+                    const SizedBox(width: 10),
+                    CustomButton(
+                      bgColor: const Color.fromARGB(100, 0, 0, 0),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Quiz()));
+                      },
+                      buttonText: 'Quiz',
+                      buttonIcon: Icons.arrow_forward,
+                    )
+                  ],
+                ),
+                const SizedBox(height: 40),
+              ],
             ),
-            const SizedBox(width: 10),
-            CustomButton(
-              bgColor: const Color.fromARGB(100, 0, 0, 0),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Quiz()));
-              },
-              buttonText: 'Quiz',
-              buttonIcon: Icons.arrow_forward,
-            )
-          ],
+          ),
+          // const Positioned(
+          //   bottom: 0.0,
+          //   right: 0.0,
+          //   child: IconButtons(),
+          // ),
+        ],
+      ),
+      floatingActionButton: const Align(
+        alignment: Alignment.bottomRight,
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: IconButtons(),
         ),
-      ],
+      ),
     );
   }
 

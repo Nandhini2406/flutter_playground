@@ -8,10 +8,11 @@ class StartQuizScreen extends StatelessWidget {
   final void Function() startQuiz;
   @override
   Widget build(context) {
-    return Center(
+    return Container(
+      margin: const EdgeInsets.all(40),
       child: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
             'assets/images/quiz.png',
@@ -19,15 +20,18 @@ class StartQuizScreen extends StatelessWidget {
             height: 200.0,
           ),
           const SizedBox(height: 40.0),
-          const StyledText('Are you Flutter nerd? Try this!', Colors.white),
+          const StyledText(
+            'Are you Flutter nerd? Try this!',
+            textColor: Colors.white,
+            textSize: 20,
+            textWeight: FontWeight.w600,
+            textAlign: TextAlign.center,
+          ),
           const SizedBox(height: 40.0),
-          SizedBox(
-            width: 120,
-            child: CustomButton(
-              bgColor: const Color.fromARGB(100, 0, 0, 0),
-              onPressed: startQuiz,
-              buttonText: 'Start Quiz',
-            ),
+          CustomButton(
+            bgColor: const Color.fromARGB(100, 0, 0, 0),
+            onPressed: startQuiz,
+            buttonText: 'Start Quiz',
           ),
         ],
       ),

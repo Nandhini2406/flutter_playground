@@ -15,25 +15,31 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return TextButton(
+    return ElevatedButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(16.0),
           backgroundColor: bgColor,
           foregroundColor: Colors.white,
-          textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-        ),
-        child: Center(
-          child: Row(
-            children: [
-              Text(
-                buttonText!,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(width: 8),
-              if (buttonIcon != null) Icon(buttonIcon),
-            ],
+          textStyle: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
           ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(40),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              buttonText!,
+              textAlign: TextAlign.center,
+            ),
+            if (buttonIcon != null) const SizedBox(width: 8),
+            Icon(buttonIcon),
+          ],
         ));
   }
 }

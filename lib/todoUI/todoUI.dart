@@ -24,7 +24,13 @@ class _TodoUIState extends State<TodoUI> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const StyledText('Todo List: ', Colors.black),
+            const StyledText(
+              'Todo List: ',
+              textColor: Colors.black,
+              textSize: 20,
+              textAlign: TextAlign.start,
+              textWeight: FontWeight.bold,
+            ),
             Text(
               _enteredText,
               style: const TextStyle(fontSize: 18),

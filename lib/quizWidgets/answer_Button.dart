@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_playground/customWidgets/styledText.dart';
 
 class AnswerButton extends StatelessWidget {
   const AnswerButton({
@@ -12,23 +13,32 @@ class AnswerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onTap,
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(
-          vertical: 10,
-          horizontal: 40,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ElevatedButton(
+          onPressed: onTap,
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(
+              vertical: 20,
+              horizontal: 40,
+            ),
+            backgroundColor: const Color.fromARGB(221, 84, 4, 91),
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(40),
+            ),
+          ),
+          child: StyledText(
+            answerText,
+            textSize: 18,
+            textColor: Colors.white,
+            textWeight: FontWeight.w500,
+            textAlign: TextAlign.center,
+          ),
         ),
-        backgroundColor: const Color.fromARGB(221, 84, 4, 91),
-        foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(40),
-        ),
-      ),
-      child: Text(
-        answerText,
-        style: const TextStyle(fontSize: 18, color: Colors.white),
-      ),
+        const SizedBox(height: 6.0)
+      ],
     );
   }
 }
