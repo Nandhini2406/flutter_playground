@@ -1,23 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
+import 'package:flutter_playground/utils/notification_service.dart';
 import 'package:flutter_playground/customWidgets/CustomButton.dart';
 import 'package:flutter_playground/customWidgets/styledText.dart';
 import 'package:flutter_playground/data/questions.dart';
 import 'package:flutter_playground/quizWidgets/quiz.dart';
 import 'package:flutter_playground/quizWidgets/result_Summary.dart';
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
-  description:
-      'This channel is used for important notifications.', // description
-  importance: Importance.max,
-);
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class ResultScreen extends StatefulWidget {
   const ResultScreen({super.key, required this.selectedAnswers});
@@ -28,94 +17,10 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
-  // final AndroidNotificationChannel notificationChannel =
-  //     const AndroidNotificationChannel(
-  //   'first_channel',
-  //   'First Channel',
-  //   description: 'This is the first notification channel',
-  //   importance: Importance.high,
-  //   playSound: true,
-  // );
-
-  void setupNotification() async {
-    final fcm = FirebaseMessaging.instance;
-    await fcm.requestPermission();
-    await fcm.setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-    final fcmToken = await fcm.getToken();
-    print('FCM Token... $fcmToken');
-
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<    
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
-  }
-
-  void showForegroundNotification() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      // if (notification != null && android != null) {
-      //   flutterLocalNotificationsPlugin.show(
-      //     notification.hashCode,
-      //     notification.title,
-      //     notification.body,
-      //     const NotificationDetails(
-      //       android: AndroidNotificationDetails(
-      //         'first_channel',
-      //         'First Channel',
-      //       ),
-      //     ),
-      //   );
-      // }
-      if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channelDescription: channel.description,
-                icon: android.smallIcon,
-                playSound: true,
-                color: Colors.blue,
-              ),
-            ));
-      }
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('A new onMessageOpenedApp event was published!');
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
-        showDialog(
-            context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text(notification.title!),
-                content: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(notification.body!)],
-                  ),
-                ),
-              );
-            });
-      }
-    });
-  }
-
   @override
   void initState() {
     super.initState();
     setupNotification();
-    showForegroundNotification();
   }
 
   List<Map<String, Object>> getSummaryData() {
@@ -134,6 +39,26 @@ class _ResultScreenState extends State<ResultScreen> {
     return summary;
   }
 
+  void showNotification(numCorrectQuestions) {
+
+    flutterLocalNotificationsPlugin.show(
+      0,
+      "Quiz completed",
+      "Source $numCorrectQuestions",
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channelDescription: channel.description,
+          importance: Importance.high,
+          color: Colors.blue,
+          playSound: true,
+          icon: '@mipmap/ic_launcher',
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(context) {
     final numTotalQuestions = questions.length;
@@ -141,22 +66,7 @@ class _ResultScreenState extends State<ResultScreen> {
         .where((data) => data['user_answer'] == data['correct_answer'])
         .toList()
         .length;
-    void showNotification() {
-      // setState(() {
-      //   _counter++;
-      // });
-      flutterLocalNotificationsPlugin.show(
-          0,
-          "Testing $numCorrectQuestions",
-          "How you doin ?",
-          NotificationDetails(
-              android: AndroidNotificationDetails(channel.id, channel.name,
-                  channelDescription: channel.description,
-                  importance: Importance.high,
-                  color: Colors.blue,
-                  playSound: true,
-                  icon: '@mipmap/ic_launcher')));
-    }
+    showNotification(numCorrectQuestions);
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 110, 14, 128),
@@ -215,7 +125,6 @@ class _ResultScreenState extends State<ResultScreen> {
             CustomButton(
               bgColor: const Color.fromARGB(97, 94, 11, 109),
               onPressed: () {
-                showNotification;
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

@@ -5,14 +5,9 @@ import 'package:flutter_playground/customWidgets/styledText.dart';
 import 'package:flutter_playground/customWidgets/CustomButton.dart';
 import 'package:flutter_playground/quizWidgets/quiz.dart';
 import 'package:flutter_playground/todoUI/todo.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 final random = Random();
-FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-// String? token = await messaging.getToken(
-//   vapidKey: "BGpdLRs......",
-// );
 class DiceRoller extends StatefulWidget {
   const DiceRoller({Key? key}) : super(key: key);
 
@@ -53,7 +48,7 @@ class _DiceRollerState extends State<DiceRoller>
   @override
   Widget build(context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(164, 12, 114, 203),
+      backgroundColor: const Color.fromARGB(163, 29, 145, 246),
       body: Stack(
         children: [
           Container(
@@ -65,7 +60,7 @@ class _DiceRollerState extends State<DiceRoller>
               children: <Widget>[
                 const StyledText(
                   'Hello Nandhini!',
-                  textColor: Color.fromARGB(255, 245, 192, 32),
+                  textColor: Color.fromARGB(255, 248, 201, 59),
                   textSize: 22,
                   textWeight: FontWeight.bold,
                   textAlign: TextAlign.center,
@@ -84,7 +79,7 @@ class _DiceRollerState extends State<DiceRoller>
                   onPressed: rollDices,
                   style: TextButton.styleFrom(
                     padding: const EdgeInsets.all(12.0),
-                    backgroundColor: const Color.fromARGB(255, 245, 192, 32),
+                    backgroundColor: Color.fromARGB(255, 255, 214, 90),
                     foregroundColor: Colors.black,
                     textStyle: const TextStyle(
                         fontSize: 22, fontWeight: FontWeight.w500),

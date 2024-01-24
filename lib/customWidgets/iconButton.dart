@@ -18,11 +18,11 @@ class _IconButtonsState extends State<IconButtons>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 300),
     );
 
     _slideAnimation = Tween<Offset>(
-      begin: Offset(0.0, 1.0),
+      begin: const Offset(0.0, 1.0),
       end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _animationController,
@@ -55,7 +55,7 @@ class _IconButtonsState extends State<IconButtons>
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    backgroundColor: Colors.amber,
+                    backgroundColor: const Color.fromARGB(255, 255, 214, 90),
                     padding: EdgeInsets.all(3.0),
                   ),
                   child: const Align(
@@ -83,16 +83,23 @@ class _IconButtonsState extends State<IconButtons>
           },
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(12.0),
             ),
-            backgroundColor: Colors.amber,
+            backgroundColor: const Color.fromARGB(255, 255, 214, 90),
             fixedSize: const Size(60.0, 60.0),
             padding: EdgeInsets.zero,
           ),
           child: showAdditionalButtons != true
-              ? const Icon(Icons.add, color: Color.fromARGB(255, 10, 10, 10))
-              : const Icon(Icons.remove,
-                  color: Color.fromARGB(255, 10, 10, 10)),
+              ? const Icon(
+                  Icons.add,
+                  color: Color.fromARGB(255, 10, 10, 10),
+                  size: 30,
+                )
+              : const Icon(
+                  Icons.remove,
+                  color: Color.fromARGB(255, 10, 10, 10),
+                  size: 30,
+                ),
         ),
       ],
     );
