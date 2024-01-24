@@ -1,24 +1,133 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 import 'package:flutter_playground/customWidgets/CustomButton.dart';
 import 'package:flutter_playground/customWidgets/styledText.dart';
 import 'package:flutter_playground/data/questions.dart';
 import 'package:flutter_playground/quizWidgets/quiz.dart';
 import 'package:flutter_playground/quizWidgets/result_Summary.dart';
 
-class ResultScreen extends StatelessWidget {
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  'high_importance_channel', // id
+  'High Importance Notifications', // title
+  description:
+      'This channel is used for important notifications.', // description
+  importance: Importance.max,
+);
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+class ResultScreen extends StatefulWidget {
   const ResultScreen({super.key, required this.selectedAnswers});
   final List<String> selectedAnswers;
+
+  @override
+  State<ResultScreen> createState() => _ResultScreenState();
+}
+
+class _ResultScreenState extends State<ResultScreen> {
+  // final AndroidNotificationChannel notificationChannel =
+  //     const AndroidNotificationChannel(
+  //   'first_channel',
+  //   'First Channel',
+  //   description: 'This is the first notification channel',
+  //   importance: Importance.high,
+  //   playSound: true,
+  // );
+
+  void setupNotification() async {
+    final fcm = FirebaseMessaging.instance;
+    await fcm.requestPermission();
+    await fcm.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    final fcmToken = await fcm.getToken();
+    print('FCM Token... $fcmToken');
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<    
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+  }
+
+  void showForegroundNotification() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      // if (notification != null && android != null) {
+      //   flutterLocalNotificationsPlugin.show(
+      //     notification.hashCode,
+      //     notification.title,
+      //     notification.body,
+      //     const NotificationDetails(
+      //       android: AndroidNotificationDetails(
+      //         'first_channel',
+      //         'First Channel',
+      //       ),
+      //     ),
+      //   );
+      // }
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channelDescription: channel.description,
+                icon: android.smallIcon,
+                playSound: true,
+                color: Colors.blue,
+              ),
+            ));
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published!');
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null) {
+        showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text(notification.title!),
+                content: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text(notification.body!)],
+                  ),
+                ),
+              );
+            });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setupNotification();
+    showForegroundNotification();
+  }
 
   List<Map<String, Object>> getSummaryData() {
     final List<Map<String, Object>> summary = [];
 
-    for (var i = 0; i < selectedAnswers.length; i++) {
+    for (var i = 0; i < widget.selectedAnswers.length; i++) {
       summary.add(
         {
           'question_index': i,
           'question': questions[i].question,
           'correct_answer': questions[i].answers[0],
-          'user_answer': selectedAnswers[i]
+          'user_answer': widget.selectedAnswers[i]
         },
       );
     }
@@ -29,12 +138,25 @@ class ResultScreen extends StatelessWidget {
   Widget build(context) {
     final numTotalQuestions = questions.length;
     final numCorrectQuestions = getSummaryData()
-        .where((data) {
-          return data['user_answer'] == data['correct_answer'];
-        })
+        .where((data) => data['user_answer'] == data['correct_answer'])
         .toList()
         .length;
-    print('$numCorrectQuestions');
+    void showNotification() {
+      // setState(() {
+      //   _counter++;
+      // });
+      flutterLocalNotificationsPlugin.show(
+          0,
+          "Testing $numCorrectQuestions",
+          "How you doin ?",
+          NotificationDetails(
+              android: AndroidNotificationDetails(channel.id, channel.name,
+                  channelDescription: channel.description,
+                  importance: Importance.high,
+                  color: Colors.blue,
+                  playSound: true,
+                  icon: '@mipmap/ic_launcher')));
+    }
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 110, 14, 128),
@@ -93,6 +215,7 @@ class ResultScreen extends StatelessWidget {
             CustomButton(
               bgColor: const Color.fromARGB(97, 94, 11, 109),
               onPressed: () {
+                showNotification;
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

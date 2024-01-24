@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_playground/customWidgets/iconButton.dart';
 
 import 'package:flutter_playground/customWidgets/styledText.dart';
 
-class TodoUI extends StatefulWidget {
-  const TodoUI({super.key});
+class Todo extends StatefulWidget {
+  const Todo({super.key});
   @override
-  _TodoUIState createState() => _TodoUIState();
+  _TodoState createState() => _TodoState();
 }
 
-class _TodoUIState extends State<TodoUI> {
+class _TodoState extends State<Todo> {
   final TextEditingController _textFieldController = TextEditingController();
   String _enteredText = '';
 
   @override
   Widget build(context) {
     return Scaffold(
+      floatingActionButton: const IconButtons(),
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       body: Container(
         padding: const EdgeInsets.all(20.0),
         margin: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 60.0),

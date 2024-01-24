@@ -4,10 +4,15 @@ import 'package:flutter_playground/customWidgets/iconButton.dart';
 import 'package:flutter_playground/customWidgets/styledText.dart';
 import 'package:flutter_playground/customWidgets/CustomButton.dart';
 import 'package:flutter_playground/quizWidgets/quiz.dart';
-import 'package:flutter_playground/todoUI/todoUI.dart';
+import 'package:flutter_playground/todoUI/todo.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 final random = Random();
+FirebaseMessaging messaging = FirebaseMessaging.instance;
 
+// String? token = await messaging.getToken(
+//   vapidKey: "BGpdLRs......",
+// );
 class DiceRoller extends StatefulWidget {
   const DiceRoller({Key? key}) : super(key: key);
 
@@ -53,7 +58,6 @@ class _DiceRollerState extends State<DiceRoller>
         children: [
           Container(
             margin: const EdgeInsets.fromLTRB(50.0, 100.0, 50.0, 100.0),
-            // constraints: ,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -97,7 +101,7 @@ class _DiceRollerState extends State<DiceRoller>
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const TodoUI()));
+                                builder: (context) => const Todo()));
                       },
                       buttonText: 'Todo',
                       buttonIcon: Icons.arrow_forward_rounded,
