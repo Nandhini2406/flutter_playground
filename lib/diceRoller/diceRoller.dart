@@ -111,7 +111,7 @@ class _DiceRollerState extends State<DiceRoller>
                                 builder: (context) => const Quiz()));
                       },
                       buttonText: 'Quiz',
-                      buttonIcon: Icons.arrow_forward,
+                      buttonIcon: Icons.book,
                     )
                   ],
                 ),
