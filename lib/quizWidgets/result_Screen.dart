@@ -6,8 +6,6 @@ import 'package:flutter_playground/data/questions.dart';
 import 'package:flutter_playground/quizWidgets/quiz.dart';
 import 'package:flutter_playground/quizWidgets/result_Summary.dart';
 
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 class ResultScreen extends StatefulWidget {
   const ResultScreen({super.key, required this.selectedAnswers});
   final List<String> selectedAnswers;
@@ -17,10 +15,11 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
+  int? correctAnswers;
   @override
   void initState() {
     super.initState();
-    setupNotification();
+    NotificationService().showFGNotification(correctAnswers);
   }
 
   List<Map<String, Object>> getSummaryData() {
@@ -39,34 +38,14 @@ class _ResultScreenState extends State<ResultScreen> {
     return summary;
   }
 
-  void showNotification(numCorrectQuestions) {
-
-    flutterLocalNotificationsPlugin.show(
-      0,
-      "Quiz completed",
-      "Source $numCorrectQuestions",
-      NotificationDetails(
-        android: AndroidNotificationDetails(
-          channel.id,
-          channel.name,
-          channelDescription: channel.description,
-          importance: Importance.high,
-          color: Colors.blue,
-          playSound: true,
-          icon: '@mipmap/ic_launcher',
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(context) {
     final numTotalQuestions = questions.length;
-    final numCorrectQuestions = getSummaryData()
+    correctAnswers = getSummaryData()
         .where((data) => data['user_answer'] == data['correct_answer'])
         .toList()
         .length;
-    showNotification(numCorrectQuestions);
+    NotificationService().showFGNotification(correctAnswers);
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 110, 14, 128),
@@ -77,7 +56,7 @@ class _ResultScreenState extends State<ResultScreen> {
           mainAxisSize: MainAxisSize.max,
           children: [
             StyledText(
-              'You answered $numCorrectQuestions out of $numTotalQuestions questions correctly',
+              'You answered $correctAnswers out of $numTotalQuestions questions correctly',
               textSize: 22,
               textColor: Colors.white,
               textWeight: FontWeight.bold,
