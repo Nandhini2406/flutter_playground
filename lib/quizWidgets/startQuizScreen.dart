@@ -1,11 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_playground/utils/notification_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_playground/customWidgets/CustomButton.dart';
 import 'package:flutter_playground/customWidgets/styledText.dart';
 
-class StartQuizScreen extends StatelessWidget {
+class StartQuizScreen extends StatefulWidget {
   const StartQuizScreen(this.startQuiz, {super.key});
 
   final void Function() startQuiz;
+
+  @override
+  State<StartQuizScreen> createState() => _StartQuizScreenState();
+}
+
+class _StartQuizScreenState extends State<StartQuizScreen> {
+  bool _isMuted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMuteSetting();
+  }
+
+  _loadMuteSetting() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isMuted = prefs.getBool('muteSetting') ?? false;
+    });
+  }
+
+  _saveMuteSetting(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('muteSetting', value);
+    NotificationService().setNotificationMute(value);
+  }
+
+// _showTimePickerModal() async {
+
+// }
+
   @override
   Widget build(context) {
     return Container(
@@ -30,9 +63,29 @@ class StartQuizScreen extends StatelessWidget {
           const SizedBox(height: 40.0),
           CustomButton(
             bgColor: const Color.fromARGB(100, 0, 0, 0),
-            onPressed: startQuiz,
+            onPressed: widget.startQuiz,
             buttonText: 'Start Quiz',
           ),
+          Row(
+            children: [
+              const Text('Mute Notifications at Night'),
+              Switch(
+                value: _isMuted,
+                onChanged: (value) {
+                  setState(() {
+                    print(value);
+                    _isMuted = value;
+                  });
+                  _saveMuteSetting(value);
+                },
+              ),
+            ],
+          ),
+          if (_isMuted)
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('Set Mute Timing'),
+            ),
         ],
       ),
     );
