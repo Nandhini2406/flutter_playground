@@ -48,7 +48,7 @@ class _DiceRollerState extends State<DiceRoller>
   @override
   Widget build(context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(163, 29, 145, 246),
+      backgroundColor: const Color.fromARGB(163, 144, 0, 199),
       body: Stack(
         children: [
           Container(
@@ -99,7 +99,7 @@ class _DiceRollerState extends State<DiceRoller>
                                 builder: (context) => const Todo()));
                       },
                       buttonText: 'Todo',
-                      buttonIcon: Icons.arrow_forward_rounded,
+                      buttonIcon: Icons.list,
                     ),
                     const SizedBox(width: 10),
                     CustomButton(
