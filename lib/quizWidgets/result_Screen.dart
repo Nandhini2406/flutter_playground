@@ -5,6 +5,7 @@ import 'package:flutter_playground/customWidgets/styledText.dart';
 import 'package:flutter_playground/data/questions.dart';
 import 'package:flutter_playground/quizWidgets/quiz.dart';
 import 'package:flutter_playground/quizWidgets/result_Summary.dart';
+import 'package:flutter_playground/utils/pdf_helper.dart';
 
 class ResultScreen extends StatefulWidget {
   const ResultScreen({super.key, required this.selectedAnswers});
@@ -49,21 +50,57 @@ class _ResultScreenState extends State<ResultScreen> {
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 110, 14, 128),
-      body: Container(
-        margin: const EdgeInsets.all(30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            StyledText(
-              'You answered $correctAnswers out of $numTotalQuestions questions correctly',
-              textSize: 22,
-              textColor: Colors.white,
-              textWeight: FontWeight.bold,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            ResultSummary(getSummaryData()),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.all(30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              StyledText(
+                'You answered $correctAnswers out of $numTotalQuestions questions correctly',
+                textSize: 22,
+                textColor: Colors.white,
+                textWeight: FontWeight.bold,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              ResultSummary(getSummaryData()),
+              const SizedBox(height: 40),
+              CustomButton(
+                bgColor: const Color.fromARGB(97, 94, 11, 109),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Quiz(),
+                    ),
+                  );
+                },
+                buttonText: 'Restart Quiz',
+                buttonIcon: Icons.refresh,
+              ),
+              const SizedBox(height: 20),
+              CustomButton(
+                bgColor: const Color.fromARGB(97, 94, 11, 109),
+                onPressed: () async {
+                  // Generate and save PDF using PDFHelper
+                  await PDFHelper.generateAndSavePDF(
+                      getSummaryData(), correctAnswers);
+                },
+                buttonText: 'Generate PDF',
+                buttonIcon: Icons.picture_as_pdf,
+              ),
+            
+            ],
+          ),
+        ),
+        
+      ),
+    );
+  }
+}
+
             // Expanded(
             //   child: ListView.builder(
             //     padding: const EdgeInsets.all(20),
@@ -100,23 +137,3 @@ class _ResultScreenState extends State<ResultScreen> {
             //     },
             //   ),
             // ),
-            const SizedBox(height: 40),
-            CustomButton(
-              bgColor: const Color.fromARGB(97, 94, 11, 109),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Quiz(),
-                  ),
-                );
-              },
-              buttonText: 'Restart Quiz',
-              buttonIcon: Icons.refresh,
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
