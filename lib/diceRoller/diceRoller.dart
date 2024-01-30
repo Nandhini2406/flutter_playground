@@ -5,6 +5,7 @@ import 'package:flutter_playground/customWidgets/styledText.dart';
 import 'package:flutter_playground/customWidgets/CustomButton.dart';
 import 'package:flutter_playground/quizWidgets/quiz.dart';
 import 'package:flutter_playground/todoUI/todo.dart';
+import 'package:flutter_playground/widgets/profile.dart';
 
 final random = Random();
 
@@ -116,6 +117,20 @@ class _DiceRollerState extends State<DiceRoller>
                   ],
                 ),
                 const SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ImageUploadScreen()));
+                  },
+                  child: const Text(
+                    'Profile',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                )
               ],
             ),
           ),
