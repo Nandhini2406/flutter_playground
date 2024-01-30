@@ -5,10 +5,11 @@ import 'package:flutter_playground/customWidgets/styledText.dart';
 import 'package:flutter_playground/data/questions.dart';
 import 'package:flutter_playground/quizWidgets/quiz.dart';
 import 'package:flutter_playground/quizWidgets/result_Summary.dart';
-import 'package:flutter_playground/utils/pdf_helper.dart';
+
 
 class ResultScreen extends StatefulWidget {
-  const ResultScreen({super.key, required this.selectedAnswers});
+   ResultScreen({super.key, required this.selectedAnswers});
+
   final List<String> selectedAnswers;
 
   @override
@@ -16,11 +17,22 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
+  AudioPlayer audioPlayer = AudioPlayer();
+
+
   int? correctAnswers;
+
   @override
   void initState() {
     super.initState();
     NotificationService().showFGNotification(correctAnswers);
+    playAudio();
+
+  }
+  void playAudio() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final filePath = prefs.getString('FilePath');
+    audioPlayer.play(DeviceFileSource(filePath!));
   }
 
   List<Map<String, Object>> getSummaryData() {
@@ -38,6 +50,7 @@ class _ResultScreenState extends State<ResultScreen> {
     }
     return summary;
   }
+
 
   @override
   Widget build(context) {
@@ -136,4 +149,4 @@ class _ResultScreenState extends State<ResultScreen> {
             //       );
             //     },
             //   ),
-            // ),
+
