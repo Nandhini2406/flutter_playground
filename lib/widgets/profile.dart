@@ -1,5 +1,10 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,6 +51,55 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
         });
       }
     }
+  }
+
+  Future<void> _getMulitiImage() async {
+    try {
+      List<XFile> resultList =
+          await ImagePicker().pickMultiImage(imageQuality: 50);
+
+      if (resultList != null && resultList.isNotEmpty) {
+        // Convert images to PDF
+        final pdf = await _convertImagesToPdf(resultList);
+
+        // Save and share the PDF
+        await _saveAndSharePdf(pdf);
+      }
+    } catch (e) {
+      print('Error picking images: $e');
+    }
+  }
+
+  Future<pw.Document> _convertImagesToPdf(List<XFile> images) async {
+    final pdf = pw.Document();
+
+    for (final image in images) {
+      final Uint8List imageData = await image.readAsBytes();
+      final imageProvider = pw.MemoryImage(imageData);
+
+      pdf.addPage(
+        pw.Page(
+          build: (pw.Context context) {
+            return pw.Center(
+              child: pw.Image(imageProvider),
+            );
+          },
+        ),
+      );
+    }
+      return pdf;
+  }
+
+  Future<void> _saveAndSharePdf(pw.Document pdf) async {
+    final downloadsDirectory = await getDownloadsDirectory();
+    final file = File("${downloadsDirectory!.path}/multi_images.pdf");
+    print('downloadsDirectory... $file');
+    await file.writeAsBytes(await pdf.save());
+    OpenFile.open(file.path);
+    print('file path... ${file.path}');
+
+    // Share the PDF
+    // Share.shareFiles([file.path]);
   }
 
   Future<void> _getImage(ImageSource source) async {
@@ -128,7 +182,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
   }
 
   Future<void> _showVideoSourceDialog() async {
-    return showDialog<void>(
+    return showDialog<void>( 
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -218,6 +272,11 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                 ),
               ],
             ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _getMulitiImage,
+              child: const Text('Images to pdf'),
+            ),
           ],
         ),
       ),
@@ -230,6 +289,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
     super.dispose();
   }
 }
+
 
   // @override
   // Widget build(BuildContext context) {
