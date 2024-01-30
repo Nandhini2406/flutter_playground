@@ -3,7 +3,8 @@ import 'package:flutter_playground/quizWidgets/QuestionsScreen.dart';
 import 'package:flutter_playground/quizWidgets/startQuizScreen.dart';
 
 class Quiz extends StatefulWidget {
-  const Quiz({super.key});
+  Quiz({super.key, });
+  String? filePath;
 
   @override
   State<Quiz> createState() {
@@ -22,7 +23,7 @@ class _QuizState extends State<Quiz> {
 
   void switchScreen() {
     setState(() {
-      activeScreen = const QuestionsScreen();
+      activeScreen =  QuestionsScreen();
     });
   }
 

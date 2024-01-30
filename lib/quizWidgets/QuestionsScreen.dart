@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_playground/customWidgets/styledText.dart';
 import 'package:flutter_playground/quizWidgets/answer_Button.dart';
 import 'package:flutter_playground/data/questions.dart';
 import 'package:flutter_playground/quizWidgets/result_Screen.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:file_picker/file_picker.dart';
+
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
-
+   QuestionsScreen({super.key});
   @override
   State<QuestionsScreen> createState() {
     return _QuestionsScreenState();
@@ -14,6 +17,7 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
+
   var currentIndex = 0;
   List<String> selectedAnswers = [];
   bool quizCompleted = false;
@@ -45,6 +49,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       } else {
         selectedAnswers.add(answers);
         quizCompleted = true;
+
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -56,6 +61,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       }
     });
   }
+
 
   @override
   Widget build(BuildContext context) {

@@ -3,10 +3,12 @@ import 'package:flutter_playground/utils/notification_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_playground/customWidgets/CustomButton.dart';
 import 'package:flutter_playground/customWidgets/styledText.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:file_picker/file_picker.dart';
 
 class StartQuizScreen extends StatefulWidget {
-  const StartQuizScreen(this.startQuiz, {super.key});
-
+  StartQuizScreen(this.startQuiz, {super.key});
+  String?filepath;
   final void Function() startQuiz;
 
   @override
@@ -14,6 +16,21 @@ class StartQuizScreen extends StatefulWidget {
 }
 
 class _StartQuizScreenState extends State<StartQuizScreen> {
+  AudioPlayer audioPlayer = AudioPlayer();
+  String? filePath;
+  void pickAudio() async {
+    FilePickerResult? result =
+    await FilePicker.platform.pickFiles(type: FileType.audio);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (result != null) {
+      setState(() {
+        filePath = result.files.first.path;
+        prefs.setString('FilePath', filePath!);
+      });
+
+    }
+  }
   bool _isMuted = false;
 
   @override
@@ -86,6 +103,7 @@ class _StartQuizScreenState extends State<StartQuizScreen> {
               onPressed: () {},
               child: const Text('Set Mute Timing'),
             ),
+          ElevatedButton(onPressed: pickAudio, child: Text('pick'))
         ],
       ),
     );
