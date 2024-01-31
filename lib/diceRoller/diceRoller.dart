@@ -1,21 +1,16 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_playground/customWidgets/iconButton.dart';
-import 'package:flutter_playground/customWidgets/styledText.dart';
-import 'package:flutter_playground/customWidgets/CustomButton.dart';
-import 'package:flutter_playground/quizWidgets/quiz.dart';
-import 'package:flutter_playground/todoUI/todo.dart';
-import 'package:flutter_playground/widgets/profile.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:file_picker/file_picker.dart';
+import '../customWidgets/iconButton.dart';
+import '../customWidgets/styledText.dart';
+import '../customWidgets/CustomButton.dart';
+import '../quizWidgets/quiz.dart';
+import '../todoUI/todo.dart';
+import '../widgets/profile.dart';
 
-import 'package:flutter_playground/utils/notification_service.dart';
-import '../utils/notification_service.dart';
 final random = Random();
 
 class DiceRoller extends StatefulWidget {
   const DiceRoller({Key? key}) : super(key: key);
-
 
   @override
   State<DiceRoller> createState() {
@@ -25,7 +20,6 @@ class DiceRoller extends StatefulWidget {
 
 class _DiceRollerState extends State<DiceRoller>
     with SingleTickerProviderStateMixin {
-
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -42,10 +36,7 @@ class _DiceRollerState extends State<DiceRoller>
       ..addListener(() {
         setState(() {});
       });
-
   }
-
-
 
   void rollDices() {
     setState(() {
@@ -55,9 +46,7 @@ class _DiceRollerState extends State<DiceRoller>
     });
   }
 
-@override
-
-
+  @override
   @override
   Widget build(context) {
     return Scaffold(
@@ -92,7 +81,7 @@ class _DiceRollerState extends State<DiceRoller>
                   onPressed: rollDices,
                   style: TextButton.styleFrom(
                     padding: const EdgeInsets.all(12.0),
-                    backgroundColor: Color.fromARGB(255, 255, 214, 90),
+                    backgroundColor: const Color.fromARGB(255, 255, 214, 90),
                     foregroundColor: Colors.black,
                     textStyle: const TextStyle(
                         fontSize: 22, fontWeight: FontWeight.w500),
@@ -121,7 +110,7 @@ class _DiceRollerState extends State<DiceRoller>
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>  Quiz()));
+                                builder: (context) => const Quiz()));
                       },
                       buttonText: 'Quiz',
                       buttonIcon: Icons.book,
@@ -143,10 +132,7 @@ class _DiceRollerState extends State<DiceRoller>
                     ),
                   ),
                 ),
-
-
               ],
-
             ),
           ),
           // const Positioned(
@@ -154,7 +140,6 @@ class _DiceRollerState extends State<DiceRoller>
           //   right: 0.0,
           //   child: IconButtons(),
           // ),
-
         ],
       ),
       floatingActionButton: const Align(

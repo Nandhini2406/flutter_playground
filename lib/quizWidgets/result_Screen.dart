@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_playground/utils/notification_service.dart';
-import 'package:flutter_playground/customWidgets/CustomButton.dart';
-import 'package:flutter_playground/customWidgets/styledText.dart';
-import 'package:flutter_playground/data/questions.dart';
-import 'package:flutter_playground/quizWidgets/quiz.dart';
-import 'package:flutter_playground/quizWidgets/result_Summary.dart';
-
+import 'package:audioplayers/audioplayers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../customWidgets/CustomButton.dart';
+import '../customWidgets/styledText.dart';
+import '../data/questions.dart';
+import '../quizWidgets/quiz.dart';
+import '../quizWidgets/result_Summary.dart';
+import '../utils/notification_service.dart';
+import '../utils/pdf_helper.dart';
 
 class ResultScreen extends StatefulWidget {
-   ResultScreen({super.key, required this.selectedAnswers});
+  ResultScreen({super.key, required this.selectedAnswers});
 
   final List<String> selectedAnswers;
 
@@ -19,7 +21,6 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   AudioPlayer audioPlayer = AudioPlayer();
 
-
   int? correctAnswers;
 
   @override
@@ -27,8 +28,8 @@ class _ResultScreenState extends State<ResultScreen> {
     super.initState();
     NotificationService().showFGNotification(correctAnswers);
     playAudio();
-
   }
+
   void playAudio() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final filePath = prefs.getString('FilePath');
@@ -50,7 +51,6 @@ class _ResultScreenState extends State<ResultScreen> {
     }
     return summary;
   }
-
 
   @override
   Widget build(context) {
@@ -104,11 +104,9 @@ class _ResultScreenState extends State<ResultScreen> {
                 buttonText: 'Generate PDF',
                 buttonIcon: Icons.picture_as_pdf,
               ),
-            
             ],
           ),
         ),
-        
       ),
     );
   }
@@ -149,4 +147,3 @@ class _ResultScreenState extends State<ResultScreen> {
             //       );
             //     },
             //   ),
-

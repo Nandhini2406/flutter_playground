@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_playground/customWidgets/iconButton.dart';
-
-import 'package:flutter_playground/customWidgets/styledText.dart';
+import '../customWidgets/iconButton.dart';
+import '../customWidgets/styledText.dart';
 
 class Todo extends StatefulWidget {
   const Todo({super.key});
@@ -47,7 +46,9 @@ class _TodoState extends State<Todo> {
                     border: UnderlineInputBorder(),
                     labelText: 'Add Your Todo List',
                     labelStyle: TextStyle(
-                        color: Color.fromARGB(255, 187, 10, 48), fontSize: 1),
+                      color: Color.fromARGB(255, 187, 10, 48),
+                      fontSize: 1,
+                    ),
                     focusColor: Colors.amberAccent,
                   ),
                   style: const TextStyle(

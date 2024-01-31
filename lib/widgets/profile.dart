@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
@@ -58,7 +57,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
       List<XFile> resultList =
           await ImagePicker().pickMultiImage(imageQuality: 50);
 
-      if (resultList != null && resultList.isNotEmpty) {
+      if (resultList.isNotEmpty) {
         // Convert images to PDF
         final pdf = await _convertImagesToPdf(resultList);
 
@@ -87,7 +86,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
         ),
       );
     }
-      return pdf;
+    return pdf;
   }
 
   Future<void> _saveAndSharePdf(pw.Document pdf) async {
@@ -182,7 +181,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
   }
 
   Future<void> _showVideoSourceDialog() async {
-    return showDialog<void>( 
+    return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(

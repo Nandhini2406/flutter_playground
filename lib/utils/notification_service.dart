@@ -1,14 +1,10 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 
 // create an instance
-
 class NotificationService {
-
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
@@ -23,10 +19,7 @@ class NotificationService {
     importance: Importance.max,
   );
 
-
   bool _isMuted = false;
-
-
 
   void setupNotification() async {
     NotificationSettings settings = await messaging.requestPermission(
@@ -77,7 +70,6 @@ class NotificationService {
         print('Notification is null');
       }
     });
-
 
     // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     //   print('A new onMessageOpenedApp event was published!');
