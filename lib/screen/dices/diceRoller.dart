@@ -1,11 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import '../customWidgets/iconButton.dart';
-import '../customWidgets/styledText.dart';
-import '../customWidgets/CustomButton.dart';
-import '../quizWidgets/quiz.dart';
-import '../todoUI/todo.dart';
-import '../widgets/profile.dart';
+import '../quiz/quiz.dart';
+import '../todo/todo.dart';
+import '../settings/profile.dart';
+import '../../widgets/icon_button.dart';
+import '../../widgets/common/styled_text.dart';
+import '../../widgets/common/custom_button.dart';
 
 final random = Random();
 

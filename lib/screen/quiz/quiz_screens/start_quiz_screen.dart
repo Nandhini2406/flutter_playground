@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../utils/notification_service.dart';
-import '../customWidgets/CustomButton.dart';
-import '../customWidgets/styledText.dart';
+import '../../../utils/notification_service.dart';
+import '../../../widgets/common/custom_button.dart';
+import '../../../widgets/common/styled_text.dart';
 
 class StartQuizScreen extends StatefulWidget {
   StartQuizScreen(this.startQuiz, {super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../customWidgets/styledText.dart';
+import '../../../widgets/common/styled_text.dart';
 
 class AnswerButton extends StatelessWidget {
   const AnswerButton({

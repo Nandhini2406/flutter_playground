@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../customWidgets/CustomButton.dart';
-import '../customWidgets/styledText.dart';
-import '../data/questions.dart';
-import '../quizWidgets/quiz.dart';
-import '../quizWidgets/result_Summary.dart';
-import '../utils/notification_service.dart';
-import '../utils/pdf_helper.dart';
+import '../quiz.dart';
+import '../quiz_widgets/result_summary.dart';
+import '../../../data/questions.dart';
+import '../../../utils/pdf_helper.dart';
+import '../../../utils/notification_service.dart';
+import '../../../widgets/common/custom_button.dart';
+import '../../../widgets/common/styled_text.dart';
 
 class ResultScreen extends StatefulWidget {
   ResultScreen({super.key, required this.selectedAnswers});

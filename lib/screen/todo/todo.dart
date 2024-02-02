@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../customWidgets/iconButton.dart';
-import '../customWidgets/styledText.dart';
+import '../../widgets/icon_button.dart';
+import '../../widgets/common/styled_text.dart';
+
 
 class Todo extends StatefulWidget {
   const Todo({super.key});

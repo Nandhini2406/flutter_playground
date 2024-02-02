@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../diceRoller/diceRoller.dart';
+import 'screen/dices/diceRoller.dart';
 
 class MainContainer extends StatelessWidget {
   const MainContainer({super.key});
