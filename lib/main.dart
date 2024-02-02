@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'app.dart';
 import '../utils/notification_service.dart';
-import '../mainContainer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,5 +10,5 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   NotificationService().setupNotification();
-  runApp(const MainContainer());
+  runApp(const App());
 }
